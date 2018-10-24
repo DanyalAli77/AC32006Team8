@@ -10,7 +10,7 @@ require_once ('config.php');
 
 //Change title of website
 ob_start();
-include("header.php");
+include("header_inside.php");
 $buffer=ob_get_contents();
 ob_end_clean();
 $title = "Welcome";
@@ -21,14 +21,6 @@ echo $buffer;
 
 ?>
 
-<?php
-if(isset($_SESSION['loggedin'])) {
-    echo '<li class="nav-item inl"><a class="nav-link inlog" href="logout.php">Log Out</a></li>';
-    echo '<a class="navbar-brand" href="welcome.php">GuitarShop</a>';
-} else {
-    echo '<li class="nav-item inl"><a class="nav-link inlog" href="login.php">Log In</a></li>';
-}
-?>
 
     <div class="page-header">
         <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h1>
