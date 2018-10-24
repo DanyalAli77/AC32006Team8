@@ -7,3 +7,27 @@
     background:whitesmoke;
     text-align: center;
 }
+
+.wrapper {
+    margin: auto;
+    width: 30%;
+    border: 3px solid;
+    padding: 10px;
+}
+
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+.container {
+    flex: 1 0 auto;
+}
+.py-5 bg-dark {
+    flex-shrink: 0;
+}
+
+
+
