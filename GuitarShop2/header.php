@@ -32,11 +32,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="contact.php">Contact</a>
                 </li>
-                <li>
+                <li class="nav-item">
                     <a class="nav-link" href="login.php">Log In</a>
                 </li>
                 <li>
-                    <a class="nav-link" href="#">Cart</a>
+                    <a class="nav-link" href="cart.php">Cart</a>
                 </li>
             </ul>
         </div>
