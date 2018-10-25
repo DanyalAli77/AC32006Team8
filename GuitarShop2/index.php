@@ -21,7 +21,7 @@ include ('header.php');
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="http://placehold.it/1200x350" alt="First slide">
+                        <img class="d-block img-fluid" src="assets/productimages/header-bands_web-1200x350.jpg" alt="First slide">
                     </div>
                     <div class="carousel-item">
                         <img class="d-block img-fluid" src="http://placehold.it/1200x350" alt="Second slide">
