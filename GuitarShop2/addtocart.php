@@ -1,23 +1,11 @@
 <?php
-	session_start();
-	if(isset($_GET['id']) & !empty($_GET['id'])){
-			$items = $_GET['id'];
-			$_SESSION['cart'] = $items;
-			header('location: index.php?status=success');
-	}else{
-		header('location: index.php?status=failed');
-	}
-
-if(isset($_SESSION['cart']) & !empty($_SESSION['cart'])){
-    $items = $_SESSION['cart'];
-    $cartitems = explode(",", $items);
-    $items .= "," . $_GET['id'];
-    $_SESSION['cart'] = $items;
-    header('location: index.php?status=success');
-}else{
-    $items = $_GET['id'];
-    $_SESSION['cart'] = $items;
-    header('location: index.php?status=success');
+session_start();
+//start a new session
+if (empty($_SESSION['cart'])) {
+	    $_SESSION['cart'] = array();
 }
-
+//put product id in the array
+array_push($_SESSION['cart'], $_GET['id']);
+header('location: index.php?status=success');
 ?>
+

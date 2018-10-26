@@ -56,6 +56,8 @@ include ('header.php');
                             </h4>
                             <h5><?php echo $r['price'] ?></h5>
                             <p class="card-text"><?php echo $r['description'] ?></p>
+                            <p class="card-text"><?php echo $r['id'] ?></p>
+
                             <p><a href="addtocart.php?id=<?php echo $r['id']; ?>" class="btn btn-primary" role="button">Add to Cart</a></p>
                         </div>
                     </div>

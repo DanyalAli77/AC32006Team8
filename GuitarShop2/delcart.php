@@ -1,12 +1,9 @@
 <?php
 session_start();
-$items = $_SESSION['cart'];
-$cartitems = explode(",", $items);
-if(isset($_GET['remove']) & !empty($_GET['remove'])){
-    $delitem = $_GET['remove'];
-    unset($cartitems[$delitem]);
-    $itemids = implode(",", $cartitems);
-    $_SESSION['cart'] = $itemids;
+foreach ($_SESSION['cart'] as $key => $id) {
+
+        unset($_SESSION['cart'][$id]);
 }
+        // ... (the rest of the code)
 header('location:cart.php');
 ?>
