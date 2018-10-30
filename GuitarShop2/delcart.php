@@ -1,9 +1,12 @@
 <?php
 session_start();
-foreach ($_SESSION['cart'] as $key => $id) {
-
-        unset($_SESSION['cart'][$id]);
+if (isset($_SESSION['cart'])) {
+    $key=array_search($_GET['remove'],$_SESSION['cart']);
+    if($key!==false)
+        unset($_SESSION['cart'][$key]);
+    $_SESSION["cart"] = array_values($_SESSION["cart"]);
 }
-        // ... (the rest of the code)
+
 header('location:cart.php');
 ?>
+
