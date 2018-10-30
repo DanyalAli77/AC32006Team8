@@ -6,6 +6,12 @@ if (empty($_SESSION['cart'])) {
 }
 //put product id in the array
 array_push($_SESSION['cart'], $_GET['id']);
-header('location: index.php?status=success');
+if(isset($_SESSION['loggedin']))
+{
+    header('location: welcome.php?status=success');
+}
+else {
+    header('location: index.php?status=success');
+}
 ?>
 
