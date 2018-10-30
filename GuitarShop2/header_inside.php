@@ -32,8 +32,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="contact.php">Contact</a>
                 </li>
-                <li>
-                    <a class="nav-link" href="logout.php">Log Out</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                        <a class="dropdown-item" href="logout.php">Log Out</a>
+                        <a class="dropdown-item" href="reset-password.php">Change Password</a>
+                    </div>
                 </li>
                 <li>
                     <a class="nav-link" href="cart.php">Cart</a>
