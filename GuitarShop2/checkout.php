@@ -1,208 +1,149 @@
 <?php
+// Include config file
+require_once "config.php";
+// Define variables and initialize with empty values
+$forname = $surname = $address3 = $address2 = $address3 = $postcode = $email = $country = $phoneNo = $address = "";
+$username_err = $password_err = $confirm_password_err = "";
+
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+// Validate username
+    if(empty(trim($_POST["username"]))){
+        $username_err = "Please enter a username.";
+    } else{
+// Prepare a select statement
+        $sql = "SELECT id FROM users WHERE username = ?";
+
+        if($stmt = mysqli_prepare($db, $sql)){
+// Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_username);
+
+// Set parameters
+            $param_username = trim($_POST["username"]);
+
+// Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $username_err = "This username is already taken.";
+                } else{
+                    $username = trim($_POST["username"]);
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+
+// Close statement
+        mysqli_stmt_close($stmt);
+    }
+
+// Validate password
+    if(empty(trim($_POST["password"]))){
+        $password_err = "Please enter a password.";
+    } elseif(strlen(trim($_POST["password"])) < 6){
+        $password_err = "Password must have atleast 6 characters.";
+    } else{
+        $password = trim($_POST["password"]);
+    }
+
+// Validate confirm password
+    if(empty(trim($_POST["confirm_password"]))){
+        $confirm_password_err = "Please confirm password.";
+    } else{
+        $confirm_password = trim($_POST["confirm_password"]);
+        if(empty($password_err) && ($password != $confirm_password)){
+            $confirm_password_err = "Password did not match.";
+        }
+    }
+
+// Check input errors before inserting in database
+    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+
+// Prepare an insert statement
+        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+
+        if($stmt = mysqli_prepare($db, $sql)){
+// Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
+
+// Set parameters
+            $param_username = $username;
+            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+
+// Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+// Redirect to login page
+                header("location: login.php");
+            } else{
+                echo "Something went wrong. Please try again later.";
+            }
+        }
+
+// Close statement
+        mysqli_stmt_close($stmt);
+    }
+
+// Close connection
+    mysqli_close($db);
+}
+
+?>
+
+<?php
 include ('header_inside.php')
 
 ?>
 <div class="container">
-<div class="row">
-    <div class="col-md-4 order-md-2 mb-4">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-muted">Your cart</span>
-            <span class="badge badge-secondary badge-pill">3</span>
-        </h4>
-        <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0">Product name</h6>
-                    <small class="text-muted">Brief description</small>
-                </div>
-                <span class="text-muted">$12</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0">Second product</h6>
-                    <small class="text-muted">Brief description</small>
-                </div>
-                <span class="text-muted">$8</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0">Third item</h6>
-                    <small class="text-muted">Brief description</small>
-                </div>
-                <span class="text-muted">$5</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between bg-light">
-                <div class="text-success">
-                    <h6 class="my-0">Promo code</h6>
-                    <small>EXAMPLECODE</small>
-                </div>
-                <span class="text-success">-$5</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-                <span>Total (USD)</span>
-                <strong>$20</strong>
-            </li>
-        </ul>
+<form>
 
-        <form class="card p-2">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Promo code">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-secondary">Redeem</button>
-                </div>
-            </div>
-        </form>
+    <div class="form-group"> <!-- Full Name -->
+        <label for="for_name_id" class="control-label">Forame</label>
+        <input type="text" class="form-control" id="for_name_id" name="for_name" placeholder="John">
     </div>
-    <div class="col-md-8 order-md-1">
-        <h4 class="mb-3">Billing address</h4>
-        <form class="needs-validation" novalidate>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="firstName">First name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                        Valid first name is required.
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="lastName">Last name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                        Valid last name is required.
-                    </div>
-                </div>
-            </div>
 
-            <div class="mb-3">
-                <label for="username">Username</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                    </div>
-                    <input type="text" class="form-control" id="username" placeholder="Username" required>
-                    <div class="invalid-feedback" style="width: 100%;">
-                        Your username is required.
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label for="email">Email <span class="text-muted">(Optional)</span></label>
-                <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                <div class="invalid-feedback">
-                    Please enter a valid email address for shipping updates.
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label for="address">Address</label>
-                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                <div class="invalid-feedback">
-                    Please enter your shipping address.
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-            </div>
-
-            <div class="row">
-                <div class="col-md-5 mb-3">
-                    <label for="country">Country</label>
-                    <select class="custom-select d-block w-100" id="country" required>
-                        <option value="">Choose...</option>
-                        <option>United States</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a valid country.
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label for="state">State</label>
-                    <select class="custom-select d-block w-100" id="state" required>
-                        <option value="">Choose...</option>
-                        <option>California</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please provide a valid state.
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="zip">Zip</label>
-                    <input type="text" class="form-control" id="zip" placeholder="" required>
-                    <div class="invalid-feedback">
-                        Zip code required.
-                    </div>
-                </div>
-            </div>
-            <hr class="mb-4">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="same-address">
-                <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-            </div>
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="save-info">
-                <label class="custom-control-label" for="save-info">Save this information for next time</label>
-            </div>
-            <hr class="mb-4">
-
-            <h4 class="mb-3">Payment</h4>
-
-            <div class="d-block my-3">
-                <div class="custom-control custom-radio">
-                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                    <label class="custom-control-label" for="credit">Credit card</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                    <label class="custom-control-label" for="debit">Debit card</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                    <label class="custom-control-label" for="paypal">Paypal</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="cc-name">Name on card</label>
-                    <input type="text" class="form-control" id="cc-name" placeholder="" required>
-                    <small class="text-muted">Full name as displayed on card</small>
-                    <div class="invalid-feedback">
-                        Name on card is required
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="cc-number">Credit card number</label>
-                    <input type="text" class="form-control" id="cc-number" placeholder="" required>
-                    <div class="invalid-feedback">
-                        Credit card number is required
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 mb-3">
-                    <label for="cc-expiration">Expiration</label>
-                    <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                    <div class="invalid-feedback">
-                        Expiration date required
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="cc-expiration">CVV</label>
-                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                    <div class="invalid-feedback">
-                        Security code required
-                    </div>
-                </div>
-            </div>
-            <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
-        </form>
+    <div class="form-group"> <!-- Full Name -->
+        <label for="sur_name_id" class="control-label">Surname</label>
+        <input type="text" class="form-control" id="sur_name_id" name="sur_name" placeholder="Deer">
     </div>
-</div>
-</div>
 
+    <div class="form-group"> <!-- Street 1 -->
+        <label for="street1_id" class="control-label">Street Address 1</label>
+        <input type="text" class="form-control" id="street1_id" name="street1" placeholder="Street address, P.O. box, company name, c/o">
+    </div>
+
+    <div class="form-group"> <!-- Street 2 -->
+        <label for="street2_id" class="control-label">Street Address 2</label>
+        <input type="text" class="form-control" id="street2_id" name="street2" placeholder="Apartment, suite, unit, building, floor, etc.">
+    </div>
+
+    <div class="form-group"> <!-- City-->
+        <label for="city_id" class="control-label">City</label>
+        <input type="text" class="form-control" id="city_id" name="city" placeholder="Smallville">
+    </div>
+
+    <div class="form-group"> <!-- State Button -->
+        <label for="state_id" class="control-label">Country</label>
+        <select class="form-control" id="state_id">
+            <option value="UK">United Kingdom</option>
+
+        </select>
+    </div>
+
+    <div class="form-group"> <!-- Zip Code-->
+        <label for="zip_id" class="control-label">Post Code</label>
+        <input type="text" class="form-control" id="zip_id" name="zip" placeholder="#####">
+    </div>
+
+    <div class="form-group"> <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Buy!</button>
+    </div>
+
+</form>
+</div>
 
 <?php
 include ('footer.php')
