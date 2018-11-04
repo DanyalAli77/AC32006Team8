@@ -1,4 +1,13 @@
 <?php
+function cart_item_count()
+{
+    if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+        return count($_SESSION['cart']);
+        }
+        else {
+            return 0;
+        }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,8 +44,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="login.php">Log In</a>
                 </li>
-                <li>
-                    <a class="nav-link" href="cart.php">Cart</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="cart.php">Cart(<?php echo cart_item_count() ?>)</a>
                 </li>
             </ul>
         </div>
