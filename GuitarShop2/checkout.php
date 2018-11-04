@@ -8,38 +8,6 @@ $username_err = $password_err = $confirm_password_err = "";
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-// Validate username
-    if(empty(trim($_POST["username"]))){
-        $username_err = "Please enter a username.";
-    } else{
-// Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";
-
-        if($stmt = mysqli_prepare($db, $sql)){
-// Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-
-// Set parameters
-            $param_username = trim($_POST["username"]);
-
-// Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                /* store result */
-                mysqli_stmt_store_result($stmt);
-
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    $username_err = "This username is already taken.";
-                } else{
-                    $username = trim($_POST["username"]);
-                }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-        }
-
-// Close statement
-        mysqli_stmt_close($stmt);
-    }
 
 // Validate password
     if(empty(trim($_POST["password"]))){
@@ -64,7 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
 
 // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $sql = "INSERT INTO users (firstname, lastname, address1, postcode, country) VALUES (?, ?, ?, ?, ?)";
 
         if($stmt = mysqli_prepare($db, $sql)){
 // Bind variables to the prepared statement as parameters
@@ -98,7 +66,7 @@ include ('header_inside.php')
 
 ?>
 <div class="container">
-<form>
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
     <div class="form-group"> <!-- Full Name -->
         <label for="for_name_id" class="control-label">Forame</label>

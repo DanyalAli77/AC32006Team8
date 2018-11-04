@@ -25,7 +25,7 @@ $items =  $_SESSION['cart'];
                 <th>Price</th>
             </tr>
             <?php
-            $total = '';
+            $total = 0;
             $i=1;
             //If statement gets rid of weird error
             if(empty($_SESSION['cart']))
