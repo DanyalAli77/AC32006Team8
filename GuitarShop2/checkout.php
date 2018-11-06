@@ -7,15 +7,38 @@ require_once "config.php";
 $forname = $surname = $address1 = $address2 = $address3 = $postcode = $email = $country = $phoneNo = "";
 $username_err = $password_err = $confirm_password_err = "";
 
+if(!empty($_SESSION['cart'])) {
+    $items =  $_SESSION['cart'];
+}
+
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+        $username = $_SESSION['username'];
+
+        $sql_payment = "INSERT INTO payment (paymentID, customerID, branchID, paymentAmount) VALUES (1, ?, 1, 12.50)";
+        $stmt_pay = mysqli_prepare($db, $sql_payment);
+        mysqli_stmt_bind_param($stmt_pay, "s", $param_id);
+        $param_id = $_SESSION['id'];
+
+        mysqli_stmt_execute($stmt_pay);
+        mysqli_stmt_close($stmt_pay);
+
+
+
+
+        $sql_order = "INSERT INTO orders (orderID, branchID, customerID, paymentID, orderDate, orderPrice, orderComplete) VALUES (0, 1, ?, 1, NOW(), 12.12, 0) ";
+        $stmt_order = mysqli_prepare($db, $sql_order);
+        mysqli_stmt_bind_param($stmt_order, "s", $param_id);
+        $param_id = $_SESSION['id'];
+        mysqli_stmt_execute($stmt_order);
+        mysqli_stmt_close($stmt_order);
 
 // Prepare an insert statement
         //$sql = "INSERT INTO users (firstname, lastname, address1, postcode, country) VALUES (?, ?, ?, ?, ?)";
-        $username = $_SESSION['username'];
+
         $sql = "UPDATE users SET firstname=?, lastname=?, email=?, phoneNo=?, address1=?, address2=?, postcode=?, country=? WHERE username = '$username'";
 
         if($stmt = mysqli_prepare($db, $sql)){
@@ -43,7 +66,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 // Close statement
         mysqli_stmt_close($stmt);
+
     }
+
+
 
 // Close connection
     mysqli_close($db);
@@ -109,7 +135,6 @@ include ('header_inside.php')
     <div class="form-group"> <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">Buy!</button>
     </div>
-
 
 
 </form>
