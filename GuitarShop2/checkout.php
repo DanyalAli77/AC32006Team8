@@ -16,16 +16,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 // Prepare an insert statement
         //$sql = "INSERT INTO users (firstname, lastname, address1, postcode, country) VALUES (?, ?, ?, ?, ?)";
         $username = $_SESSION['username'];
-        $sql = "UPDATE users SET firstname=?, lastname=?, email=?, address1=?, address2=?, postcode=?, country=? WHERE username = '$username'";
+        $sql = "UPDATE users SET firstname=?, lastname=?, email=?, phoneNo=?, address1=?, address2=?, postcode=?, country=? WHERE username = '$username'";
 
         if($stmt = mysqli_prepare($db, $sql)){
 // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssssss", $param_firstname, $param_lastname, $param_email, $param_address1, $param_address2, $param_postcode, $param_country);
+            mysqli_stmt_bind_param($stmt, "ssssssss", $param_firstname, $param_lastname, $param_email, $param_phone, $param_address1, $param_address2, $param_postcode, $param_country);
 
 // Set parameters
             $param_firstname = trim($_POST["for_name"]);
             $param_lastname = trim($_POST["sur_name"]);
             $param_email = trim($_POST["email"]);
+            $param_phone = trim($_POST["phone"]);
             $param_address1 = trim($_POST["street1"]);
             $param_address2 = trim($_POST["street2"]);
             $param_postcode = trim($_POST["zip"]);
@@ -59,7 +60,7 @@ include ('header_inside.php')
 
     <div class="form-group"> <!-- Full Name -->
         <label for="for_name_id" class="control-label">Forame</label>
-        <input type="text" class="form-control" id="for_name_id" name="for_name" placeholder="John" value="<?php echo $forename; ?>">
+        <input type="text" class="form-control" id="for_name_id" name="for_name" placeholder="John">
     </div>
 
     <div class="form-group"> <!-- Full Name -->
@@ -70,6 +71,11 @@ include ('header_inside.php')
     <div class="form-group"> <!-- Email -->
         <label for="email_id" class="control-label">Email</label>
         <input type="text" class="form-control" id="email_id" name="email" placeholder="example@email.com">
+    </div>
+
+    <div class="form-group"> <!-- Phone -->
+        <label for="phone_id" class="control-label">Phone</label>
+        <input type="text" class="form-control" id="phone_id" name="phone" placeholder="07123456789">
     </div>
 
     <div class="form-group"> <!-- Street 1 -->
