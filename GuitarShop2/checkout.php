@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 // Include config file
 require_once "config.php";
 // Define variables and initialize with empty values
@@ -8,7 +9,7 @@ $username_err = $password_err = $confirm_password_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    
+
 // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
 
@@ -107,6 +108,7 @@ include ('header_inside.php')
 
 </form>
 </div>
+<h1><?php echo $_SESSION['$id'];?></h1>
 
 
 <?php
