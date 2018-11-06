@@ -37,6 +37,7 @@
                         Account
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                        <a class="dropdown-item" href="orders.php">Orders</a>
                         <a class="dropdown-item" href="logout.php">Log Out</a>
                         <a class="dropdown-item" href="reset-password.php">Change Password</a>
                     </div>
