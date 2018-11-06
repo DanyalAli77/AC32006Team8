@@ -67,6 +67,7 @@ $items =  $_SESSION['cart'];
                     else{
                         echo '<td><a href="login.php" class="btn btn-info">Checkout</a></td>';
                     }
+
                 ?>
             </tr>
         </table>

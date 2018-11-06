@@ -7,36 +7,18 @@ $username_err = $password_err = $confirm_password_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-
-// Validate password
-    if(empty(trim($_POST["password"]))){
-        $password_err = "Please enter a password.";
-    } elseif(strlen(trim($_POST["password"])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
-    } else{
-        $password = trim($_POST["password"]);
-    }
-
-// Validate confirm password
-    if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "Please confirm password.";
-    } else{
-        $confirm_password = trim($_POST["confirm_password"]);
-        if(empty($password_err) && ($password != $confirm_password)){
-            $confirm_password_err = "Password did not match.";
-        }
-    }
-
+    
 // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
 
 // Prepare an insert statement
-        $sql = "INSERT INTO users (firstname, lastname, address1, postcode, country) VALUES (?, ?, ?, ?, ?)";
+        //$sql = "INSERT INTO users (firstname, lastname, address1, postcode, country) VALUES (?, ?, ?, ?, ?)";
+        $username = $_SESSION['username'];
+        $sql = "UPDATE users SET (firstname, lastname, address1, postcode, country) VALUES (?, ?, ?, ?, ?) WHERE username = '$username'";
 
         if($stmt = mysqli_prepare($db, $sql)){
 // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
+            mysqli_stmt_bind_param($stmt, "ss", $param_firstname, $param_lastname, $param_address1, $param_postcode, $param_country);
 
 // Set parameters
             $param_username = $username;
