@@ -30,7 +30,7 @@ $items =  $_SESSION['cart'];
             //If statement gets rid of weird error
             if(empty($_SESSION['cart']))
             {
-                echo "cart is empty";
+                //echo "cart is empty";
 
             }
             else {
@@ -67,10 +67,15 @@ $items =  $_SESSION['cart'];
                     else{
                         echo '<td><a href="login.php" class="btn btn-info">Checkout</a></td>';
                     }
-
                 ?>
             </tr>
         </table>
+
+        <?php
+        if(empty($_SESSION['cart'])) {
+        echo '<h1>Cart is empty!</h1>';
+        }
+        ?>
     </div>
 </div>
 

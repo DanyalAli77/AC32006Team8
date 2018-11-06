@@ -1,4 +1,10 @@
 <?php session_start();
+
+// Check if the user is logged in, if not then redirect him to index.php page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: index.php");
+    exit;
+}
 require_once ('config.php');
 
 //select statement for getting order id.
@@ -10,9 +16,14 @@ $r_order = mysqli_fetch_assoc($res_order);
 ?>
 
 
+
+
 <?php
 include ('header_inside.php');
 ?>
+
+
+
 
 <div class="container">
     <div class="page-header">
@@ -44,6 +55,8 @@ include ('header_inside.php');
     </div>
 
 </div>
+
+
 
 <?php
 include ('footer.php');
