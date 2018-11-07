@@ -21,8 +21,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         $username = $_SESSION['username'];
+        $order_id = 2;
+        $payment_id = 2;
 
-        $sql_payment = "INSERT INTO payment (paymentID, customerID, branchID, paymentAmount) VALUES (1, ?, 1, 12.50)";
+        $sql_payment = "INSERT INTO payment (paymentID, customerID, branchID, paymentAmount) VALUES ('$payment_id', ?, 1, 12.50)";
         $stmt_pay = mysqli_prepare($db, $sql_payment);
         mysqli_stmt_bind_param($stmt_pay, "s", $param_id);
         $param_id = $_SESSION['id'];
@@ -32,7 +34,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 
-        $sql_order = "INSERT INTO orders (orderID, branchID, customerID, paymentID, orderDate, orderPrice, orderComplete) VALUES (0, 1, ?, 1, NOW(), 12.12, 0) ";
+        $sql_order = "INSERT INTO orders (orderID, branchID, customerID, paymentID, orderDate, orderPrice, orderComplete) VALUES ('$order_id', 1, ?, (select paymentID from payment where paymentID = '$payment_id'), NOW(), 12.12, 0) ";
         $stmt_order = mysqli_prepare($db, $sql_order);
         mysqli_stmt_bind_param($stmt_order, "s", $param_id);
         $param_id = $_SESSION['id'];
@@ -40,28 +42,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_stmt_close($stmt_order);
 
 
-//        $sql_products = "INSERT INTO order_product (orderID, ";
-//        $index = 1;
-//        while($index <= count($items))
-//        {
-//            $sql_products .= "item" . $index . ", ";
-//            $index += 1;
-//        }
-//        $sql_products .= ") VALUES ('?', ";
-//
-//        foreach ($items as $key => $id)
-//        {
-//            $sql_products .= "'" .$id . "' ,";
-//        }
-//
-//        $sql_products = substr($sql_products, 0, -1);
-//        $sql_products .= ")";
-//
-//        $stmt_products = mysqli_prepare($db, $sql_products);
-//        mysqli_stmt_bind_param($stmt_products, "i", $order_id);
-//        $order_id = 1;
-//        mysqli_stmt_execute($stmt_products);
-//        mysqli_stmt_close($stmt_products);
+        $sql_products = "INSERT INTO order_product (orderID, ";
+        $index = 1;
+        while($index <= count($items))
+        {
+            $sql_products .= "item" . $index . ", ";
+            $index += 1;
+        }
+        $sql_products = substr($sql_products, 0, -2);
+        $sql_products .= ") VALUES ((SELECT orderID FROM orders WHERE orderID = '$order_ID'), ";
+
+        foreach ($items as $key => $id)
+        {
+            $sql_products .= "'" .$id . "' ,";
+        }
+
+        $sql_products = substr($sql_products, 0, -1);
+        $sql_products .= ")";
+
+        $stmt_products = mysqli_prepare($db, $sql_products);
+        mysqli_stmt_execute($stmt_products);
+        mysqli_stmt_close($stmt_products);
 
 
 
