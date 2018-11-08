@@ -4,10 +4,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Guitar Shop</title>
+    <title>Admin</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="./assets/stylesheet.css">
-    <link rel="stylesheet" href="./assets/shop-homepage.css">
+    <link rel="stylesheet" href="../assets/stylesheet.css">
+    <link rel="stylesheet" href="../assets/shop-homepage.css">
 </head>
 
 <body>
@@ -22,29 +22,23 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="welcome.php">Home
+                    <a class="nav-link" href="admin_home.php">Orders
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.php">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.php">Contact</a>
+                    <a class="nav-link" href="addproducts.php">Add products
+                    </a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Account
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                        <a class="dropdown-item" href="orders.php">Orders</a>
-                        <a class="dropdown-item" href="logout.php">Log Out</a>
-                        <a class="dropdown-item" href="reset-password.php">Change Password</a>
+                        <a class="dropdown-item" href="logout_staff.php">Log Out</a>
                     </div>
                 </li>
-                <li>
-                    <a class="nav-link" href="cart.php">Cart</a>
-                </li>
+
             </ul>
         </div>
     </div>
