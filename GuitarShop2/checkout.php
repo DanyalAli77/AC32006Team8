@@ -21,8 +21,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         $username = $_SESSION['username'];
-        $order_id = 2;
-        $payment_id = 2;
+        $order_id = 3;
+        $payment_id = 3;
 
         $sql_payment = "INSERT INTO payment (paymentID, customerID, branchID, paymentAmount) VALUES ('$payment_id', ?, 1, 12.50)";
         $stmt_pay = mysqli_prepare($db, $sql_payment);
@@ -50,7 +50,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $index += 1;
         }
         $sql_products = substr($sql_products, 0, -2);
-        $sql_products .= ") VALUES ((SELECT orderID FROM orders WHERE orderID = '$order_ID'), ";
+        $sql_products .= ") VALUES ((SELECT orderID FROM orders WHERE orderID = '$order_id'), ";
 
         foreach ($items as $key => $id)
         {
