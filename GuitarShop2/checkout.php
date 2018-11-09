@@ -21,8 +21,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         $username = $_SESSION['username'];
-        $order_id = 3;
-        $payment_id = 3;
+
+
+        $sql = "SELECT MAX(orderID) AS currentID FROM orders";
+        $stmt = mysqli_prepare($db, $sql);
+
+
+
+
+        $payment_id = 4;
 
         $sql_payment = "INSERT INTO payment (paymentID, customerID, branchID, paymentAmount) VALUES ('$payment_id', ?, 1, 12.50)";
         $stmt_pay = mysqli_prepare($db, $sql_payment);
