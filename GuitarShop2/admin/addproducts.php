@@ -1,5 +1,11 @@
-<?php
+<?php session_start();
 require_once ('../config.php');
+
+// Check if the user is logged in, if not then redirect him to index.php page
+if(!isset($_SESSION["loggedinadmin"]) || $_SESSION["loggedinadmin"] !== true){
+    header("location: index.php");
+    exit;
+}
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 

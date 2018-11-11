@@ -24,7 +24,7 @@ echo $buffer;
 <div class="container">
     <div class="page-header">
         <p></p>
-        <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h1>
+        <h3>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h3>
     </div>
 </div>
 
@@ -49,10 +49,10 @@ echo $buffer;
                             <img class="d-block img-fluid" src="assets/productimages/header-bands_web-1200x350.jpg" alt="First slide">
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block img-fluid" src="http://placehold.it/1200x350" alt="Second slide">
+                            <img class="d-block img-fluid" src="assets/productimages/owl_carusel_2.jpg" alt="Second slide">
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block img-fluid" src="http://placehold.it/1200x350" alt="Third slide">
+                            <img class="d-block img-fluid" src="assets/productimages/owl_carusel_3.jpg" alt="Third slide">
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -74,16 +74,37 @@ echo $buffer;
                     <?php while($r = mysqli_fetch_assoc($res)){ ?>
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img src="<?php echo $r['image']; ?>" alt="<?php echo $r['title'] ?>">
+                                <img src="<?php echo $r['image']; ?>" alt="<?php echo $r['title'] ?>" class="img-fluid img-thumbnail">
                                 <div class="card-body">
                                     <h4 class="card-title">
                                         <a href="#"><?php echo $r['title'] ?></a>
                                     </h4>
-                                    <h5><?php echo $r['price'] ?></h5>
-                                    <p class="card-text"><?php echo $r['description'] ?></p>
-                                    <p class="card-text"><?php echo $r['id'] ?></p>
+                                    <h5>£<?php echo $r['price'] ?></h5>
 
                                     <p><a href="addtocart.php?id=<?php echo $r['id']; ?>" class="btn btn-primary" role="button">Add to Cart</a></p>
+
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal<?php echo $r['description'] ?>">More</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal<?php echo $r['description'] ?>" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+
+                                                    <h4 class="modal-title">Description</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p><?php echo $r['description'] ?></p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
