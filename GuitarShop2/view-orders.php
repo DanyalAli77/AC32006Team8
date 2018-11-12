@@ -28,7 +28,30 @@ include ('header_inside.php');
 
 
                 <?php
+                $order_size = array(10);
                 $username = 1;
+
+                $sql_count = "SELECT
+  (`item1` IS NOT NULL) +
+  (`item2` IS NOT NULL) +
+  (`item3` IS NOT NULL) AS Count
+FROM `order_product`
+WHERE `orderID` in (
+    select `orderID` from `orders` WHERE `customerID`='$username'    )";
+
+
+                if(!$result = $db->query($sql_count)){
+                    die('There was an error running the query [' . $db->error . ']');
+                }
+
+                $x = 0;
+                while($row = $result->fetch_assoc()){
+                    $order_size[$x] =$row["Count"];
+                    echo "order size: " . $order_size[$x];
+                    $x++;
+                }
+
+
 
                 $sql_items = "SELECT `item1` AS item1
     FROM  `order_product`
@@ -77,7 +100,7 @@ include ('header_inside.php');
     )
     UNION ALL
 
-    SELECT `item7` AS item2
+    SELECT `item7` 
     FROM  `order_product`
     WHERE `item7` IS NOT NULL
     AND `orderID` in (
@@ -118,6 +141,9 @@ include ('header_inside.php');
                 $item_titles = array(10);
                 $item_price = array(10);
 
+
+
+
                 $i=0;
                 while($row = $result->fetch_assoc()){
 
@@ -143,6 +169,7 @@ include ('header_inside.php');
 
 
                 $i = 0;
+                $order_index=0;
                 while($r = mysqli_fetch_assoc($res))
                 {
                     $items=$row["item1"];
@@ -154,13 +181,23 @@ include ('header_inside.php');
                     echo "Cost: " . $r["orderPrice"] . '</h6>';
                     echo '</li>';
 
-                    echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
-                    echo $item_titles[$i] . '<br>';
-                    echo $item_price[$i] . '<br>';
-                    echo '</li>';
-                    echo '</ul>';
+                    $aaah = 0;
 
-                    $i++;
+
+                    while($aaah < $order_size[$order_index]) {
+                        echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
+                        echo $item_titles[$i] . '<br>';
+                        echo $item_price[$i] . '<br>';
+                        echo '</li>';
+                        echo '</ul>';
+
+                        $i++;
+                        $aaah++;
+
+                    }
+                    $order_index++;
+
+
                 }
 
                 $sql->free();
