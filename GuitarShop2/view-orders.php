@@ -176,27 +176,27 @@ WHERE `orderID` in (
 
                     echo '<ul class="list-group mb-3" style="height:auto">';
                     echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
-                    echo '<h6 class="my-0">' . "OrderID: " . $r["orderID"];
+                    echo '<h6 class="my-0">' . "OrderID: " . $r["orderID"] . " ";
                     echo "Date: " . $r["orderDate"] . " ";
                     echo "Cost: " . $r["orderPrice"] . '</h6>';
                     echo '</li>';
 
                     $aaah = 0;
 
-
+                    echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
                     while($aaah < $order_size[$order_index]) {
-                        echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
+                        //echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
                         echo $item_titles[$i] . '<br>';
                         echo $item_price[$i] . '<br>';
-                        echo '</li>';
-                        echo '</ul>';
+
 
                         $i++;
                         $aaah++;
 
                     }
                     $order_index++;
-
+                    echo '</li>';
+                    echo '</ul>';
 
                 }
 
