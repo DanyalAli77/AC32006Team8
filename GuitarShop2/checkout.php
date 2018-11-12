@@ -22,16 +22,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         $username = $_SESSION['username'];
 
+        ini_set('display_startup_errors', true);
+        error_reporting(E_ALL);
+        ini_set('display_errors', true);
 
-        $sql = "SELECT MAX(orderID) AS currentID FROM orders";
-        $stmt = mysqli_prepare($db, $sql);
-
-
-
-
-        $payment_id = 4;
-
-        $sql_payment = "INSERT INTO payment (paymentID, customerID, branchID, paymentAmount) VALUES ('$payment_id', ?, 1, 12.50)";
+        $sql_payment = "INSERT INTO payment (customerID, branchID, paymentAmount) VALUES ( ?, 1, 12.50)";
         $stmt_pay = mysqli_prepare($db, $sql_payment);
         mysqli_stmt_bind_param($stmt_pay, "s", $param_id);
         $param_id = $_SESSION['id'];
@@ -41,7 +36,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 
-        $sql_order = "INSERT INTO orders (orderID, branchID, customerID, paymentID, orderDate, orderPrice, orderComplete) VALUES ('$order_id', 1, ?, (select paymentID from payment where paymentID = '$payment_id'), NOW(), 12.12, 0) ";
+        $sql_order = "INSERT INTO orders (branchID, customerID, paymentID, orderDate, orderPrice, orderComplete) VALUES (1, ?,(SELECT MAX( paymentID ) FROM payment) ,NOW(), 12.12, 0) ";
         $stmt_order = mysqli_prepare($db, $sql_order);
         mysqli_stmt_bind_param($stmt_order, "s", $param_id);
         $param_id = $_SESSION['id'];
@@ -49,7 +44,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_stmt_close($stmt_order);
 
 
-        $sql_products = "INSERT INTO order_product (orderID, ";
+        $sql_products = "INSERT INTO order_product (";
         $index = 1;
         while($index <= count($items))
         {
@@ -57,7 +52,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $index += 1;
         }
         $sql_products = substr($sql_products, 0, -2);
-        $sql_products .= ") VALUES ((SELECT orderID FROM orders WHERE orderID = '$order_id'), ";
+        $sql_products .= ") VALUES ( ";
 
         foreach ($items as $key => $id)
         {
@@ -180,7 +175,7 @@ include ('header_inside.php')
 
 </form>
 </div>
-<h1><?php echo $_SESSION['$id'];?></h1>
+
 
 
 <?php
