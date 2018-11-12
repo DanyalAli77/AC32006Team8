@@ -47,92 +47,12 @@ WHERE `orderID` in (
                 $x = 0;
                 while($row = $result->fetch_assoc()){
                     $order_size[$x] =$row["Count"];
-                    echo "order size: " . $order_size[$x];
                     $x++;
                 }
 
 
 
-                $sql_items = "SELECT `item1` AS item1
-    FROM  `order_product`
-    WHERE `item1` IS NOT NULL
-    AND `orderID` in (
-    select `orderID` from `orders` WHERE `customerID`='$username'
-    )
-    UNION ALL
-
-    SELECT `item2`
-    FROM  `order_product`
-    WHERE `item2` IS NOT NULL
-    AND `orderID` in (
-    select `orderID` from `orders` WHERE `customerID`='$username'    )
-    UNION ALL
-
-    SELECT `item3`
-    FROM  `order_product`
-    WHERE `item3` IS NOT NULL
-    AND `orderID` in (
-    select `orderID` from `orders` WHERE `customerID`='$username'
-    )
-    UNION ALL
-
-    SELECT `item4`
-    FROM  `order_product`
-    WHERE `item4` IS NOT NULL
-    AND `orderID` in (
-    select `orderID` from `orders` WHERE `customerID`='$username'
-    )
-    UNION ALL
-
-    SELECT `item5`
-    FROM  `order_product`
-    WHERE `item5` IS NOT NULL
-    AND `orderID` in (
-    select `orderID` from `orders` WHERE `customerID`='$username'
-    )
-    UNION ALL
-
-    SELECT `item6`
-    FROM  `order_product`
-    WHERE `item6` IS NOT NULL
-    AND `orderID` in (
-    select `orderID` from `orders` WHERE `customerID`='$username'
-    )
-    UNION ALL
-
-    SELECT `item7` 
-    FROM  `order_product`
-    WHERE `item7` IS NOT NULL
-    AND `orderID` in (
-    select `orderID` from `orders` WHERE `customerID`='$username'
-    )
-    UNION ALL
-
-    SELECT `item8`
-    FROM  `order_product`
-    WHERE `item8` IS NOT NULL
-    AND `orderID` in (
-    select `orderID` from `orders` WHERE `customerID`='$username'
-    )
-    UNION ALL
-
-    SELECT `item9`
-    FROM  `order_product`
-    WHERE `item9` IS NOT NULL
-    AND `orderID` in (
-    select `orderID` from `orders` WHERE `customerID`='$username'
-    )
-    UNION ALL
-
-    SELECT `item10`
-    FROM  `order_product`
-    WHERE `item10` IS NOT NULL
-    AND `orderID` in (
-    select `orderID` from `orders` WHERE `customerID`='$username'
-    )";
-
-
-
+                $sql_items = "SELECT * FROM `order_product`";
 
                 if(!$result = $db->query($sql_items)){
                     die('There was an error running the query [' . $db->error . ']');
@@ -145,22 +65,41 @@ WHERE `orderID` in (
 
 
                 $i=0;
+                $j = 1;
                 while($row = $result->fetch_assoc()){
 
-                    $item=$row["item1"];
+                    $current = "item1";
 
-                    $sql = "SELECT title, price FROM products WHERE id='$item' ";
-                    $res = mysqli_query($db, $sql);
-                    $r = mysqli_fetch_assoc($res);
-                    //echo $r["title"] . '<br>';
+                    for($x = 0; $x < 5; $x++)
+                    {
+                        $item=$row[$current];
 
-                    $item_titles[$i] = $r["title"];
-                    $item_price[$i] = $r['price'];
 
+                        $sql = "SELECT title, price FROM products WHERE id='$item' ";
+                        $res = mysqli_query($db, $sql);
+                        $r = mysqli_fetch_assoc($res);
+                        //echo $r["title"] . '<br>';
+
+                        $item_titles[$i] = $r["title"];
+                        $item_price[$i] = $r['price'];
+
+                        echo $current . " " . $item_titles[$i] . '<br>';
+                        $i++;
+                        $current = substr($current, 0, -1);
+
+
+                        $j++;
+                        $current .= $j;
+
+
+
+                    }
+                    $j = 1;
                     $i++;
+
+
                 }
-
-
+                $result->close();
 
 
                 $test = $_SESSION['id'];
@@ -172,7 +111,6 @@ WHERE `orderID` in (
                 $order_index=0;
                 while($r = mysqli_fetch_assoc($res))
                 {
-                    $items=$row["item1"];
 
                     echo '<ul class="list-group mb-3" style="height:auto">';
                     echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
@@ -183,20 +121,19 @@ WHERE `orderID` in (
 
                     $aaah = 0;
 
-
+                    echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
                     while($aaah < $order_size[$order_index]) {
-                        echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
-                        echo $item_titles[$i] . '<br>';
-                        echo $item_price[$i] . '<br>';
-                        echo '</li>';
-                        echo '</ul>';
+                            echo $item_titles[$i] . '<br>';
+                            echo $item_price[$i] . '<br>';
+
 
                         $i++;
                         $aaah++;
 
                     }
                     $order_index++;
-
+                    echo '</li>';
+                    echo '</ul>';
 
                 }
 
