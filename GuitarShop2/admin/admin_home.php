@@ -5,11 +5,16 @@
  * Date: 08/11/2018
  * Time: 16:09
  */
+
+require_once ('../config.php');
+
 // Check if the user is logged in, if not then redirect him to index.php page
 if(!isset($_SESSION["loggedinadmin"]) || $_SESSION["loggedinadmin"] !== true){
     header("location: index.php");
     exit;
 }
+
+
 
 ?>
 
