@@ -197,6 +197,7 @@ include ('header_inside.php')
             </div>
 
             <?php
+            $total = 0;
             if(empty($_SESSION['cart']))
             {
                 //echo "cart is empty";
