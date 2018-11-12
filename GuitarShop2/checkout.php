@@ -118,7 +118,16 @@ include ('header_inside.php')
 
 ?>
 <div class="container">
+    <div class="row">
+        <div class="col-8">
+            <p></p>
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Shipping details</span>
+            </h4>
+
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
+
 
     <div class="form-group"> <!-- Full Name -->
         <label for="for_name_id" class="control-label">Forame</label>
@@ -174,8 +183,57 @@ include ('header_inside.php')
 
 
 </form>
-</div>
+        </div>
 
+
+        <div class="col-4">
+            <p></p>
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your cart</span>
+
+            </h4>
+
+            <div style="height:31px">
+            </div>
+
+            <?php
+            if(empty($_SESSION['cart']))
+            {
+                //echo "cart is empty";
+
+            }
+            else {
+                if (is_array($items) || is_object($items)) {
+                    //loop through each id in the cart.
+                    foreach ($items as $key => $id) {
+                        $sql = "SELECT * FROM products WHERE id = $id";
+                        $res = mysqli_query($db, $sql);
+                        $r = mysqli_fetch_assoc($res);
+                        ?>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <div>
+                                    <?php echo $r['title']; ?>
+                                    <span class="text-muted">£<?php echo $r['price']; ?></span>
+                                </div>
+                            </li>
+                        </ul>
+                        <?php
+                        $total += $r['price'];
+                    }
+
+                }
+            }
+            ?>
+            <tr>
+                <td><strong>Total Price</strong></td>
+                <td><strong>£<?php echo $total; ?></strong></td>
+            </tr>
+
+
+        </div>
+    </div>
+</div>
 
 
 <?php
