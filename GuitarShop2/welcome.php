@@ -8,6 +8,51 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
 require_once ('config.php');
 
+
+
+$selected = array();
+//$orderby = $_GET['orderby'];
+$orderby = (isset($_GET['orderby']) ? $_GET['orderby'] : 'sort');
+if(!$orderby) { $orderby = 'sort'; }
+
+if($orderby == 'price_asc')
+{
+    $orderby_query = "order by price ASC";
+}
+else if($orderby == 'price_desc')
+{
+    $orderby_query = "order by price DESC";
+}
+else if($orderby == 'name')
+{
+    $orderby_query = "order by title";
+}
+else if($orderby == 'sort')
+{
+    $orderby_query = "";
+}
+else if($orderby == 'default')
+{
+    $orderby_query = "";
+}
+else { unset($orderby); }
+
+// If $orderby was valid set the selected sort option for the form.
+
+if($orderby)
+{
+    $selected[$orderby] = '';
+}
+
+// Now run your SQL query with the $orderby_query variable.  Ex:
+
+$sql = "select * from products $orderby_query";
+
+// SQL code goes here..
+
+
+
+
 //Change title of website
 ob_start();
 include("header_inside.php");
@@ -64,9 +109,25 @@ echo $buffer;
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
+
+
+                <!-- Sort products -->
+                <form method=get style="display: inline;" name='orderby_form'>
+                    <select class="btn btn-mini" id="inlineFormCustomSelect" name=orderby onChange="orderby_form.submit();">
+                        <option value="sort" <?php print $selected[$orderby];?>> Sort By</option>
+                        <option value="default" <?php print $selected[$orderby];?>>Default</option>
+                        <option value='name' <?php print $selected[$orderby]; ?>>Name</option>
+                        <option value='price_asc' <?php print $selected[$orderby]; ?>>Price (Low - High)</option>
+                        <option value='price_desc' <?php print $selected[$orderby]; ?>>Price (High - Low)</option>
+                    </select>
+                    <p></p>
+                </form>
+
+
+                
                 <?php
                 //prepare sql statement
-                $sql = "SELECT * FROM products";
+                //$sql = "SELECT * FROM products";
                 $res = mysqli_query($db, $sql);
                 ?>
                 <!-- Loop through all items in database using php-->
