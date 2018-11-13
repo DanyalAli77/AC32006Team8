@@ -37,7 +37,7 @@ $items =  $_SESSION['cart'];
                 if (is_array($items) || is_object($items)) {
                     //loop through each id in the cart.
                     foreach ($items as $key => $id) {
-                        $sql = "CALL getBasketProducts($id)";
+                        $sql = "SELECT * FROM products";
                         $res = mysqli_query($db, $sql);
                         $r = mysqli_fetch_assoc($res);
                         ?>

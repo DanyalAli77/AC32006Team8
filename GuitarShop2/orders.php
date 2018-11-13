@@ -7,11 +7,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 require_once ('config.php');
 
-//select statement for getting order id.
-$customerID= $_SESSION['id'];
-$sql_order = "SELECT MAX(orderID) FROM orders WHERE customerID = '$customerID'";
-$res_order = mysqli_query($db, $sql_order);
-$r_order = mysqli_fetch_assoc($res_order);
+
 
 unset($_SESSION['cart']);
 ?>
@@ -30,6 +26,14 @@ include ('header_inside.php');
     <div class="page-header">
         <p></p>
         <h1>Order Summary</h1>
+        <?php
+        //select statement for getting order id.
+        $customerID= $_SESSION['id'];
+        //$sql_order = "SELECT MAX(orderID) FROM orders WHERE customerID = '$customerID'";
+        $sql_order = "SELECT orderID FROM orders WHERE customerID = '$customerID' ORDER BY orderID DESC LIMIT 1";
+        $res_order = mysqli_query($db, $sql_order);
+        $r_order = mysqli_fetch_assoc($res_order);
+        ?>
         <p>OrderID: <?php echo $r_order['orderID'];?></p>
     </div>
 
