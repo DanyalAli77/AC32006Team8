@@ -96,7 +96,7 @@ WHERE `orderID` in (
                             $item_price[$i] = $r['price'];
 
                         if(!empty($item_titles[$i]) && !empty($item_price[$i])) {
-                        echo $current . " " . $item_titles[$i] . '<br>';
+                        echo $item_titles[$i] . " " . " £" . $item_price[$i] . '<br>';
                         }
                         $i++;
                         $current = substr($current, 0, -1);
