@@ -124,7 +124,7 @@ echo $buffer;
                 </form>
 
 
-                
+
                 <?php
                 //prepare sql statement
                 //$sql = "SELECT * FROM products";
