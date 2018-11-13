@@ -62,15 +62,27 @@ WHERE `orderID` in (
                 $item_price = array(10);
 
 
-
+                $test = $_SESSION['id'];
+                $sql1 = "SELECT orderID, orderDate, orderPrice FROM orders WHERE customerID = '$test';";
+                $res1 = mysqli_query($db, $sql1);
 
                 $i=0;
                 $j = 1;
-                while($row = $result->fetch_assoc()){
+                echo '<h1>Orders</h1>';
+                while(($r1 = mysqli_fetch_assoc($res1)) && ($row = $result->fetch_assoc())){
 
                     $current = "item1";
 
-                    for($x = 0; $x < 5; $x++)
+                    echo '<ul class="list-group mb-3" style="height:auto">';
+                    echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
+                    echo '<h6 class="my-0">' . "OrderID: " . $r1["orderID"] . " ";
+                    echo "Date: " . $r1["orderDate"] . " ";
+                    echo "Cost: " . $r1["orderPrice"] . '</h6>';
+                    echo '</li>';
+
+
+                    echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
+                    for($x = 0; $x < 10; $x++)
                     {
                         $item=$row[$current];
 
@@ -80,10 +92,12 @@ WHERE `orderID` in (
                         $r = mysqli_fetch_assoc($res);
                         //echo $r["title"] . '<br>';
 
-                        $item_titles[$i] = $r["title"];
-                        $item_price[$i] = $r['price'];
+                            $item_titles[$i] = $r["title"];
+                            $item_price[$i] = $r['price'];
 
+                        if(!empty($item_titles[$i]) && !empty($item_price[$i])) {
                         echo $current . " " . $item_titles[$i] . '<br>';
+                        }
                         $i++;
                         $current = substr($current, 0, -1);
 
@@ -94,6 +108,8 @@ WHERE `orderID` in (
 
 
                     }
+                    echo '</li>';
+                    echo '</ul>';
                     $j = 1;
                     $i++;
 
@@ -102,54 +118,9 @@ WHERE `orderID` in (
                 $result->close();
 
 
-                $test = $_SESSION['id'];
-                $sql = "SELECT orderID, orderDate, orderPrice FROM orders WHERE customerID = '$test';";
-                $res = mysqli_query($db, $sql);
-
-
-                $i = 0;
-                $order_index=0;
-                while($r = mysqli_fetch_assoc($res))
-                {
-
-                    echo '<ul class="list-group mb-3" style="height:auto">';
-                    echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
-                    echo '<h6 class="my-0">' . "OrderID: " . $r["orderID"] . " ";
-                    echo "Date: " . $r["orderDate"] . " ";
-                    echo "Cost: " . $r["orderPrice"] . '</h6>';
-                    echo '</li>';
-
-                    $aaah = 0;
-
-                    echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
-                    while($aaah < $order_size[$order_index]) {
-
-                            echo $item_titles[$i] . '<br>';
-                            echo $item_price[$i] . '<br>';
-
-
-
-                        $i++;
-                        $aaah++;
-
-                    }
-                    $order_index++;
-                    echo '</li>';
-                    echo '</ul>';
-
-                }
-
-                $sql->free();
-
-
-
-
 
                 ?>
 
-        </div>
-        <div class="col-9">
-            <p>test</p>
         </div>
     </div>
 
