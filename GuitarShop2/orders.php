@@ -25,12 +25,12 @@ include ('header_inside.php');
 <div class="container">
     <div class="page-header">
         <p></p>
-        <h1>Order Summary</h1>
+        <h1>Order Summary </h1>
         <?php
         //select statement for getting order id.
         $customerID= $_SESSION['id'];
         //$sql_order = "SELECT MAX(orderID) FROM orders WHERE customerID = '$customerID'";
-        $sql_order = "SELECT orderID FROM orders WHERE customerID = '$customerID' ORDER BY orderID DESC LIMIT 1";
+        $sql_order = "SELECT orderID, orderPrice FROM orders WHERE customerID = '$customerID' ORDER BY orderID DESC LIMIT 1";
         $res_order = mysqli_query($db, $sql_order);
         $r_order = mysqli_fetch_assoc($res_order);
         ?>
@@ -42,7 +42,7 @@ include ('header_inside.php');
             <?php
             //select statment for getting user shipping details
             $username = $_SESSION['username'];
-            echo $username;
+            //echo $username;
             $sql = "SELECT firstname, lastname, address1, address2, postcode, country, phoneNo FROM users WHERE username = '$username'";
             $res = mysqli_query($db, $sql);
             $r = mysqli_fetch_assoc($res);
@@ -171,10 +171,12 @@ include ('header_inside.php');
                         echo '</ul>';
 
 
+
             }
 
             ?>
-
+            <h4>Total: £<?php echo $r_order['orderPrice'];?></h4>
+            <a class="btn btn-primary float-right" href="welcome.php" role="button">Back to Homepage</a>
 
         </div>
     </div>
