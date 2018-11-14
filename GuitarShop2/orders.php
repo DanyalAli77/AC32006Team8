@@ -65,7 +65,7 @@ include ('header_inside.php');
 
 
             <?php
-            $sql = "SELECT `item1` AS item1
+            $sql = "SELECT `item1` 
     FROM  `order_product`
     WHERE `item1` IS NOT NULL
     AND `orderID` in (
@@ -113,7 +113,7 @@ include ('header_inside.php');
     )
     UNION ALL
 
-    SELECT `item7` AS item2
+    SELECT `item7`
     FROM  `order_product`
     WHERE `item7` IS NOT NULL
     AND `orderID` in (

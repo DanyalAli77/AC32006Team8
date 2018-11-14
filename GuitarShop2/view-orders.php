@@ -86,7 +86,7 @@ WHERE `orderID` in (
                     $total_cost=0;
 
                     echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
-                    for($x = 0; $x < 12; $x++)
+                    for($x = 0; $x < 10; $x++)
                     {
                         $item=$row[$current];
 
