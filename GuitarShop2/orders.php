@@ -148,7 +148,6 @@ include ('header_inside.php');
                 die('There was an error running the query [' . $db->error . ']');
             }
 
-            $i=0;
             while($row = $result->fetch_assoc()){
 
                 $test=$row["item1"];
@@ -171,7 +170,6 @@ include ('header_inside.php');
                         echo '</ul>';
 
 
-                $i++;
             }
 
             ?>

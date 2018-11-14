@@ -28,7 +28,7 @@ include ('header_inside.php');
 
 
                 <?php
-                $order_size = array(10);
+                $order_size = array(50);
                 $username = 1;
 
                 $sql_count = "SELECT
@@ -58,8 +58,8 @@ WHERE `orderID` in (
                     die('There was an error running the query [' . $db->error . ']');
                 }
 
-                $item_titles = array(10);
-                $item_price = array(10);
+                $item_titles = array(50);
+                $item_price = array(50);
 
 
                 $test = $_SESSION['id'];
@@ -75,14 +75,16 @@ WHERE `orderID` in (
 
                     echo '<ul class="list-group mb-3" style="height:auto">';
                     echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
-                    echo '<h6 class="my-0">' . "OrderID: " . $r1["orderID"] . " ";
+                    echo '<h6 class="my-0">' . "OrderID: " . $r1["orderID"] . "    ";
                     echo "Date: " . $r1["orderDate"] . " ";
-                    echo "Cost: " . $r1["orderPrice"] . '</h6>';
+                    //echo "Cost: " . $r1["orderPrice"] . '</h6>';
                     echo '</li>';
 
 
+                    $total_cost=0;
+
                     echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
-                    for($x = 0; $x < 10; $x++)
+                    for($x = 0; $x < 12; $x++)
                     {
                         $item=$row[$current];
 
@@ -97,6 +99,7 @@ WHERE `orderID` in (
 
                         if(!empty($item_titles[$i]) && !empty($item_price[$i])) {
                         echo $item_titles[$i] . " " . " £" . $item_price[$i] . '<br>';
+                            $total_cost += $item_price[$i];
                         }
                         $i++;
                         $current = substr($current, 0, -1);
@@ -108,6 +111,9 @@ WHERE `orderID` in (
 
 
                     }
+
+                    echo '<br>';
+                    echo "Total: £" . $total_cost;
                     echo '</li>';
                     echo '</ul>';
                     $j = 1;
