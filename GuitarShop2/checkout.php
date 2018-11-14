@@ -39,7 +39,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 
-        $sql_order = "INSERT INTO orders (branchID, customerID, paymentID, orderDate, orderPrice, orderComplete) VALUES (1, ?,(SELECT MAX( paymentID ) FROM payment) ,NOW(), $total, 0)";
+        $sql_order = "INSERT INTO orders (branchID, customerID, paymentID, orderDate, orderPrice, orderStatus) VALUES (1, ?,(SELECT MAX( paymentID ) FROM payment) ,NOW(), $total, 0)";
         $stmt_order = mysqli_prepare($db, $sql_order);
         mysqli_stmt_bind_param($stmt_order, "s", $param_id);
         $param_id = $_SESSION['id'];

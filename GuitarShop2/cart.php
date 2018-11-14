@@ -46,7 +46,7 @@ $items =  $_SESSION['cart'];
                             <td>
                                 <a href="delcart.php?remove=<?php echo $id; ?>">Remove</a> <?php echo $r['title']; ?>
                             </td>
-                            <td>$<?php echo $r['price']; ?></td>
+                            <td>£<?php echo $r['price']; ?></td>
                         </tr>
                         <?php
                         $total += $r['price'];

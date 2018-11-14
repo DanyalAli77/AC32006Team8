@@ -66,6 +66,8 @@ WHERE `orderID` in (
                 $sql1 = "SELECT orderID, orderDate, orderPrice FROM orders WHERE customerID = '$test';";
                 $res1 = mysqli_query($db, $sql1);
 
+
+
                 $i=0;
                 $j = 1;
                 echo '<h1>Orders</h1>';
@@ -77,7 +79,7 @@ WHERE `orderID` in (
                     echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
                     echo '<h6 class="my-0">' . "OrderID: " . $r1["orderID"] . "    ";
                     echo "Date: " . $r1["orderDate"] . " ";
-                    //echo "Cost: " . $r1["orderPrice"] . '</h6>';
+                    echo "Total Cost: £" . $r1["orderPrice"] . '</h6>';
                     echo '</li>';
 
 
@@ -99,7 +101,6 @@ WHERE `orderID` in (
 
                         if(!empty($item_titles[$i]) && !empty($item_price[$i])) {
                         echo $item_titles[$i] . " " . " £" . $item_price[$i] . '<br>';
-                            $total_cost += $item_price[$i];
                         }
                         $i++;
                         $current = substr($current, 0, -1);
@@ -112,8 +113,6 @@ WHERE `orderID` in (
 
                     }
 
-                    echo '<br>';
-                    echo "Total: £" . $total_cost;
                     echo '</li>';
                     echo '</ul>';
                     $j = 1;
