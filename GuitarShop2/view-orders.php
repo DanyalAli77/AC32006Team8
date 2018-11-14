@@ -63,7 +63,7 @@ WHERE `orderID` in (
 
 
                 $test = $_SESSION['id'];
-                $sql1 = "SELECT orderID, orderDate, orderPrice FROM orders WHERE customerID = '$test';";
+                $sql1 = "SELECT orderID, orderDate, orderPrice, orderStatus FROM orders WHERE customerID = '$test';";
                 $res1 = mysqli_query($db, $sql1);
 
 
@@ -77,9 +77,9 @@ WHERE `orderID` in (
 
                     echo '<ul class="list-group mb-3" style="height:auto">';
                     echo '<li class="list-group-item d-flex justify-content-between lh-condensed">';
-                    echo '<h6 class="my-0">' . "OrderID: " . $r1["orderID"] . "    ";
-                    echo "Date: " . $r1["orderDate"] . " ";
-                    echo "Total Cost: £" . $r1["orderPrice"] . '</h6>';
+                    echo '<h6 class="my-0">' . "OrderID: " . '<i>' . $r1["orderID"] . '</i>' . "    ";
+                    echo "Date: " . '<i>'. $r1["orderDate"] . '</i>'. " ";
+                    echo "Total Cost: ". '<i>'."£" . $r1["orderPrice"] . '</i>'. " " . "Order Status: ". '<i>' . $r1['orderStatus'] . '</i>'. '</h6>';
                     echo '</li>';
 
 
