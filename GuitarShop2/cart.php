@@ -52,6 +52,7 @@ $items =  $_SESSION['cart'];
                         $total += $r['price'];
                         $i++;
                     }
+                    $_SESSION['totalcost']= $total;
 
                 }
             }
