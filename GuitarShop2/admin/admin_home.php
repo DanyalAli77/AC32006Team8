@@ -14,6 +14,11 @@ if(!isset($_SESSION["loggedinadmin"]) || $_SESSION["loggedinadmin"] !== true){
     exit;
 }
 
+if(isset($_POST['update'])) {
+    $sql_update_order="UPDATE orders SET orderStatus='$value' WHERE orderID = '$orderID'";
+    mysqli_query($db, $sql_update_order);
+}
+
 
 
 ?>
@@ -21,6 +26,26 @@ if(!isset($_SESSION["loggedinadmin"]) || $_SESSION["loggedinadmin"] !== true){
 
 <?php include ('admin_header.php') ?>
 
+
+<?php
+$sql = "SELECT users.firstname, users.lastname, users.address1, users.address2, users.city, users.postcode, orders.orderID, orders.orderStatus
+FROM users
+INNER JOIN orders ON orders.customerID=users.id;";
+$res = mysqli_query($db, $sql);
+
+$orderID = $r["orderID"];
+//{
+//    echo $r["firstname"] ." ";
+//    echo $r["lastname"]." ";
+//    echo $r["address1"]." ";
+//    echo $r["address2"]." ";
+//    echo $r["city"]." ";
+//    echo $r["postcode"]." ";
+//    echo $r["orderID"]." ";
+//    echo $r["orderStatus"]." ";
+//    echo '<br>';
+//}
+?>
 
 
 <div class="container">
@@ -36,47 +61,30 @@ if(!isset($_SESSION["loggedinadmin"]) || $_SESSION["loggedinadmin"] !== true){
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark Mark</td>
-            <td>1 Main Street, Dundee, DD1 1DD</td>
-            <td>
-                <select class="btn btn-mini" id="inlineFormCustomSelect" name="orderby">
-                    <option value="completed">Completed</option>
-                    <option value="received">Received</option>
-                    <option value='cancelled'>Cancelled</option>
-                    <option value='shipped'>Shipped</option>
-                    <option value='pending'>Pending</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob Jacob</td>
-            <td>Main Street, Dundee, DD1 1DD</td>
-            <td> <select class="btn btn-mini" id="inlineFormCustomSelect" name="orderby">
-                    <option value="completed">Completed</option>
-                    <option value="received">Received</option>
-                    <option value='cancelled'>Cancelled</option>
-                    <option value='shipped'>Shipped</option>
-                    <option value='pending'>Pending</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry Larry</td>
-            <td>Main Street, Dundee, DD1 1DD</td>
-            <td>
-                <select class="btn btn-mini" id="inlineFormCustomSelect" name="orderby">
-                    <option value="completed">Completed</option>
-                    <option value="received">Received</option>
-                    <option value='cancelled'>Cancelled</option>
-                    <option value='shipped'>Shipped</option>
-                    <option value='pending'>Pending</option>
-                </select>
-            </td>
-        </tr>
+        <?php
+        while($r = mysqli_fetch_assoc($res)) {
+
+
+
+            echo '<tr>';
+            echo '<th scope="row">' . $r["orderID"] . '</th>';
+                echo '<td>' .  $r["firstname"] . " " . $r["lastname"] . '</td>';
+                echo '<td>' . $r["address1"] . ", " . $r["address2"] . ", " . $r["city"] . ", " . $r["postcode"] . '</td>';
+                echo '<td>';
+                echo '<form method="post" action="">';
+                    echo '<select class="btn btn-mini" id="inlineFormCustomSelect" name="orderStatusForm">';
+                        echo '<option value="Processing">' . "Processing" . '</option>';
+                        echo '<option value="received">' . "Received" . '</option>';
+                        echo '<option value="cancelled">' . "Cancelled" . '</option>';
+                        echo '<option value="shipped">' . "Shipped" . '</option>';
+                    echo '</select>';
+                    echo '<input type="submit" name="update" value="update">';
+                    echo '</form>';
+                echo '</td>';
+            echo '</tr>';
+
+        }
+        ?>
         </tbody>
     </table>
 </div>
