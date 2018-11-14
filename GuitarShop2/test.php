@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
         $total = $_SESSION['totalcost'];
-        $sql_payment = "INSERT INTO payment (customerID, branchID, paymentAmount) VALUES ( ?, 1, '$total')";
+        $sql_payment = "INSERT INTO payment (customerID, branchID, paymentAmount) VALUES ( ?, 1, $total)";
         $stmt_pay = mysqli_prepare($db, $sql_payment);
         mysqli_stmt_bind_param($stmt_pay, "s", $param_id);
         $param_id = $_SESSION['id'];
@@ -39,7 +39,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 
-        $sql_order = "INSERT INTO orders (branchID, customerID, paymentID, orderDate, orderPrice, orderStatus) VALUES (1, ?,(SELECT MAX( paymentID ) FROM payment) ,NOW(), '$total', 0)";
+        $sql_order = "INSERT INTO orders (branchID, customerID, paymentID, orderDate, orderPrice, orderStatus) VALUES (1, ?,(SELECT MAX( paymentID ) FROM payment) ,NOW(), $total, 0)";
         $stmt_order = mysqli_prepare($db, $sql_order);
         mysqli_stmt_bind_param($stmt_order, "s", $param_id);
         $param_id = $_SESSION['id'];
@@ -78,11 +78,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 // Prepare an insert statement
         //$sql = "INSERT INTO users (firstname, lastname, address1, postcode, country) VALUES (?, ?, ?, ?, ?)";
 
-        $sql = "UPDATE users SET firstname=?, lastname=?, email=?, phoneNo=?, address1=?, address2=?, postcode=?, country=?, city=? WHERE username = '$username'";
+        $sql = "UPDATE users SET firstname=?, lastname=?, email=?, phoneNo=?, address1=?, address2=?, postcode=?, country=? WHERE username = '$username'";
 
         if($stmt = mysqli_prepare($db, $sql)){
 // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssssssss", $param_firstname, $param_lastname, $param_email, $param_phone, $param_address1, $param_address2, $param_postcode, $param_country, $param_city);
+            mysqli_stmt_bind_param($stmt, "ssssssss", $param_firstname, $param_lastname, $param_email, $param_phone, $param_address1, $param_address2, $param_postcode, $param_country);
 
 // Set parameters
             $param_firstname = trim($_POST["for_name"]);
@@ -93,7 +93,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_address2 = trim($_POST["street2"]);
             $param_postcode = trim($_POST["zip"]);
             $param_country = trim($_POST["country"]);
-            $param_city = trim($_POST["city"]);
 
 // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){

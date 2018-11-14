@@ -42,6 +42,7 @@ include ('header_inside.php');
             <?php
             //select statment for getting user shipping details
             $username = $_SESSION['username'];
+            echo $username;
             $sql = "SELECT firstname, lastname, address1, address2, postcode, country, phoneNo FROM users WHERE username = '$username'";
             $res = mysqli_query($db, $sql);
             $r = mysqli_fetch_assoc($res);
