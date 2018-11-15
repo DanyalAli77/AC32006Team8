@@ -7,20 +7,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 require_once ('config.php');
 
-
-
 unset($_SESSION['cart']);
 ?>
-
-
 
 
 <?php
 include ('header_inside.php');
 ?>
-
-
-
 
 <div class="container">
     <div class="page-header">
@@ -57,11 +50,6 @@ include ('header_inside.php');
         </div>
         <div class="col-6">
             <p class="font-weight-bold text-left">Items:</p>
-
-
-
-
-
 
 
             <?php
@@ -157,7 +145,6 @@ include ('header_inside.php');
                 $sql = "SELECT title, price FROM products WHERE id='$test' ";
                 $res = mysqli_query($db, $sql);
                 $r = mysqli_fetch_assoc($res);
-                //echo $r["title"] . '<br>';
 
 
                 echo '<ul class="list-group mb-3">';
@@ -169,9 +156,6 @@ include ('header_inside.php');
                             echo '</div>';
                             echo '</li>';
                         echo '</ul>';
-
-
-
             }
 
             ?>
@@ -180,13 +164,7 @@ include ('header_inside.php');
 
         </div>
     </div>
-
-
-
-
 </div>
-
-
 
 <?php
 include ('footer.php');

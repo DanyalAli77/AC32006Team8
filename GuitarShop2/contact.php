@@ -15,12 +15,10 @@ if(!empty($_SESSION['cart'])) {
 
 if(isset($_POST['email'])) {
 
-    // EDIT THE 2 LINES BELOW AS REQUIRED
     $email_to = "jilmjarv@dundee.ac.uk";
     $email_subject = "Customer contact form";
 
     function died($error) {
-        // your error code can go here
         echo "We are very sorry, but there were error(s) found with the form you submitted. ";
         echo "These errors appear below.<br /><br />";
         echo $error."<br /><br />";
@@ -94,7 +92,7 @@ if(isset($_POST['email'])) {
     @mail($email_to, $email_subject, $email_message, $headers);
 
 
-    //<!-- include your own success html here -->
+
 
     echo "<script type='text/javascript'>
                 alert('Thank you for contacting us. We will be in touch with you very soon.');
@@ -124,7 +122,9 @@ if(isset($_POST['email'])) {
                 <p> </p>
 
 
-
+                    <!-- Map code is an edited version of that found at the following addresses:
+                    https://developers.google.com/maps/documentation/javascript/adding-a-google-map
+                    https://developers.google.com/maps/documentation/javascript/infowindows -->
 
                     <div id="map"></div>
                     <script>
@@ -222,6 +222,9 @@ if(isset($_POST['email'])) {
                     <script async defer
                             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJzx5QKDhaB72kgywxbbcXNpEsRH-xH2g&callback=initMap">
                     </script>
+
+                <!-- End of map code -->
+
                 <p></p>
             </div>
                 <div class="col">

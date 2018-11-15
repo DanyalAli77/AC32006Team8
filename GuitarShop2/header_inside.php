@@ -1,4 +1,13 @@
 <?php
+function cart_item_count()
+{
+    if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+        return count($_SESSION['cart']);
+    }
+    else {
+        return 0;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

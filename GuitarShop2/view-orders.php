@@ -12,9 +12,6 @@ $r_order = mysqli_fetch_assoc($res_order);
 unset($_SESSION['cart']);
 ?>
 
-
-
-
 <?php
 include ('header_inside.php');
 ?>
@@ -24,9 +21,6 @@ include ('header_inside.php');
     <div class="row">
         <div class="col-9">
 
-
-
-
                 <?php
                 $order_size = array(50);
                 $username = 1;
@@ -34,7 +28,14 @@ include ('header_inside.php');
                 $sql_count = "SELECT
   (`item1` IS NOT NULL) +
   (`item2` IS NOT NULL) +
-  (`item3` IS NOT NULL) AS Count
+  (`item3` IS NOT NULL) +
+  (`item4` IS NOT NULL) + 
+  (`item5` IS NOT NULL) +
+  (`item6` IS NOT NULL) +
+  (`item7` IS NOT NULL) +
+  (`item8` IS NOT NULL) +
+  (`item9` IS NOT NULL) +
+  (`item10` IS NOT NULL) AS Count
 FROM `order_product`
 WHERE `orderID` in (
     select `orderID` from `orders` WHERE `customerID`='$username'    )";
@@ -49,8 +50,6 @@ WHERE `orderID` in (
                     $order_size[$x] =$row["Count"];
                     $x++;
                 }
-
-
 
                 $sql_items = "SELECT * FROM `order_product`";
 
@@ -68,8 +67,8 @@ WHERE `orderID` in (
 
 
 
-                $i=0;
-                $j = 1;
+                $itemIndex=0;
+                $currentItemPostfix = 1;
                 echo '<h1>Orders</h1>';
                 while(($r1 = mysqli_fetch_assoc($res1)) && ($row = $result->fetch_assoc())){
 
@@ -96,33 +95,27 @@ WHERE `orderID` in (
                         $r = mysqli_fetch_assoc($res);
                         //echo $r["title"] . '<br>';
 
-                            $item_titles[$i] = $r["title"];
-                            $item_price[$i] = $r['price'];
+                            $item_titles[$itemIndex] = $r["title"];
+                            $item_price[$itemIndex] = $r['price'];
 
-                        if(!empty($item_titles[$i]) && !empty($item_price[$i])) {
-                        echo $item_titles[$i] . " " . " £" . $item_price[$i] . '<br>';
+                        if(!empty($item_titles[$itemIndex]) && !empty($item_price[$itemIndex])) {
+                        echo $item_titles[$itemIndex] . " " . " £" . $item_price[$itemIndex] . '<br>';
                         }
-                        $i++;
+                        $itemIndex++;
                         $current = substr($current, 0, -1);
 
 
-                        $j++;
-                        $current .= $j;
-
-
-
+                        $currentItemPostfix++;
+                        $current .= $currentItemPostfix;
                     }
 
                     echo '</li>';
                     echo '</ul>';
-                    $j = 1;
-                    $i++;
-
+                    $currentItemPostfix = 1;
+                    $itemIndex++;
 
                 }
                 $result->close();
-
-
 
                 ?>
 

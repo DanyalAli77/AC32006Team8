@@ -7,9 +7,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 }
 // Include config file
 require_once "config.php";
-// Define variables and initialize with empty values
-$forname = $surname = $address1 = $address2 = $address3 = $postcode = $email = $country = $phoneNo = "";
-$username_err = $password_err = $confirm_password_err = "";
+
 
 if(!empty($_SESSION['cart'])) {
     $items =  $_SESSION['cart'];
@@ -18,28 +16,21 @@ if(!empty($_SESSION['cart'])) {
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-// Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+
         $username = $_SESSION['username'];
 
-        //ini_set('display_startup_errors', true);
-        //error_reporting(E_ALL);
-        //ini_set('display_errors', true);
 
-
-        $total = $_SESSION['totalcost'];
-        $sql_payment = "INSERT INTO payment (customerID, branchID, paymentAmount) VALUES ( ?, 1, '$total')";
+        $totalCost = $_SESSION['totalcost'];
+        $sql_payment = "INSERT INTO payment (customerID, branchID, paymentAmount) VALUES ( ?, 1, '$totalCost')";
         $stmt_pay = mysqli_prepare($db, $sql_payment);
         mysqli_stmt_bind_param($stmt_pay, "s", $param_id);
         $param_id = $_SESSION['id'];
-
-
         mysqli_stmt_execute($stmt_pay);
         mysqli_stmt_close($stmt_pay);
 
 
 
-        $sql_order = "INSERT INTO orders (branchID, customerID, paymentID, orderDate, orderPrice, orderStatus) VALUES (1, ?,(SELECT MAX( paymentID ) FROM payment) ,NOW(), '$total', 'Received')";
+        $sql_order = "INSERT INTO orders (branchID, customerID, paymentID, orderDate, orderPrice, orderStatus) VALUES (1, ?,(SELECT MAX( paymentID ) FROM payment) ,NOW(), '$totalCost', 'Received')";
         $stmt_order = mysqli_prepare($db, $sql_order);
         mysqli_stmt_bind_param($stmt_order, "s", $param_id);
         $param_id = $_SESSION['id'];
@@ -72,16 +63,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 
-
-
-
-// Prepare an insert statement
-        //$sql = "INSERT INTO users (firstname, lastname, address1, postcode, country) VALUES (?, ?, ?, ?, ?)";
-
         $sql = "UPDATE users SET firstname=?, lastname=?, email=?, phoneNo=?, address1=?, address2=?, postcode=?, country=?, city=? WHERE username = '$username'";
 
         if($stmt = mysqli_prepare($db, $sql)){
-// Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "sssssssss", $param_firstname, $param_lastname, $param_email, $param_phone, $param_address1, $param_address2, $param_postcode, $param_country, $param_city);
 
 // Set parameters
@@ -95,20 +79,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_country = trim($_POST["country"]);
             $param_city = trim($_POST["city"]);
 
-// Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
-// Redirect to login page
+                // Redirect to login page
                 header("location: orders.php");
             } else{
                 echo "Something went wrong. Please try again later.";
             }
         }
 
-// Close statement
         mysqli_stmt_close($stmt);
-
-    }
-
 
 
 // Close connection
@@ -201,7 +180,7 @@ include ('header_inside.php')
             </div>
 
             <?php
-            $total = 0;
+            $totalCost = 0;
             if(empty($_SESSION['cart']))
             {
                 //echo "cart is empty";
@@ -212,19 +191,19 @@ include ('header_inside.php')
                     //loop through each id in the cart.
                     foreach ($items as $key => $id) {
                         $sql = "SELECT * FROM products WHERE id = $id";
-                        $res = mysqli_query($db, $sql);
-                        $r = mysqli_fetch_assoc($res);
+                        $result = mysqli_query($db, $sql);
+                        $row = mysqli_fetch_assoc($result);
                         ?>
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex justify-content-between lh-condensed">
                                 <div>
-                                    <?php echo $r['title']; ?>
-                                    <span class="text-muted">£<?php echo $r['price']; ?></span>
+                                    <?php echo $row['title']; ?>
+                                    <span class="text-muted">£<?php echo $row['price']; ?></span>
                                 </div>
                             </li>
                         </ul>
                         <?php
-                        $total += $r['price'];
+                        $totalCost += $row['price'];
                     }
 
                 }
@@ -232,7 +211,7 @@ include ('header_inside.php')
             ?>
             <tr>
                 <td><strong>Total Price</strong></td>
-                <td><strong>£<?php echo $total; ?></strong></td>
+                <td><strong>£<?php echo $totalCost; ?></strong></td>
             </tr>
 
 

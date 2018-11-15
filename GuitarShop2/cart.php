@@ -20,13 +20,13 @@ $items =  $_SESSION['cart'];
         <table class="table">
 
             <tr>
-                <th>S.NO</th>
+                <th>Item Number</th>
                 <th>Item Name</th>
                 <th>Price</th>
             </tr>
             <?php
             $total = 0;
-            $i=1;
+            $itemNumber=1;
             //If statement gets rid of weird error
             if(empty($_SESSION['cart']))
             {
@@ -38,19 +38,19 @@ $items =  $_SESSION['cart'];
                     //loop through each id in the cart.
                     foreach ($items as $key => $id) {
                         $sql = "SELECT * FROM products WHERE id = $id";
-                        $res = mysqli_query($db, $sql);
-                        $r = mysqli_fetch_assoc($res);
+                        $result = mysqli_query($db, $sql);
+                        $rows = mysqli_fetch_assoc($result);
                         ?>
                         <tr>
-                            <td><?php echo $i; ?></td>
+                            <td><?php echo $itemNumber; ?></td>
                             <td>
-                                <a href="delcart.php?remove=<?php echo $id; ?>">Remove</a> <?php echo $r['title']; ?>
+                                <a href="delcart.php?remove=<?php echo $id; ?>">Remove</a> <?php echo $rows['title']; ?>
                             </td>
-                            <td>£<?php echo $r['price']; ?></td>
+                            <td>£<?php echo $rows['price']; ?></td>
                         </tr>
                         <?php
-                        $total += $r['price'];
-                        $i++;
+                        $total += $r['price']; //stores total basket cost
+                        $itemNumber++;
                     }
                     $_SESSION['totalcost']= $total;
 
