@@ -49,7 +49,7 @@ $items =  $_SESSION['cart'];
                             <td>£<?php echo $rows['price']; ?></td>
                         </tr>
                         <?php
-                        $total += $r['price']; //stores total basket cost
+                        $total += $rows['price']; //stores total basket cost
                         $itemNumber++;
                     }
                     $_SESSION['totalcost']= $total;
