@@ -1,4 +1,4 @@
-<?php
+<?php session_start();
 require_once ('config.php');
 
 
@@ -50,7 +50,6 @@ include ('header.php');
 
 <!-- Page Content -->
 <div class="container">
-
     <div class="row">
 
 

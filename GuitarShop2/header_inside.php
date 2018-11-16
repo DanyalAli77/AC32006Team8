@@ -53,7 +53,7 @@ function cart_item_count()
                     </div>
                 </li>
                 <li>
-                    <a class="nav-link" href="cart.php">Cart</a>
+                    <a class="nav-link" href="cart.php">Cart(<?php echo cart_item_count() ?>)</a>
                 </li>
             </ul>
         </div>
