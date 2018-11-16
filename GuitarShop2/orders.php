@@ -36,7 +36,7 @@ include ('header_inside.php');
             //select statment for getting user shipping details
             $username = $_SESSION['username'];
             //echo $username;
-            $sql = "SELECT firstname, lastname, address1, address2, postcode, country, phoneNo FROM users WHERE username = '$username'";
+            $sql = "SELECT firstname, lastname, address1, address2, postcode, country, phoneNo, city FROM users WHERE username = '$username'";
             $res = mysqli_query($db, $sql);
             $r = mysqli_fetch_assoc($res);
             ?>
@@ -44,7 +44,7 @@ include ('header_inside.php');
             <p class="font-weight-normal"><?php echo $r['firstname'];?> <?php echo $r['lastname'];?></p>
             <p class="font-weight-normal"><?php echo $r['address1'];?></p>
             <p class="font-weight-normal"><?php echo $r['address2'];?></p>
-            <p class="font-weight-normal"><?php echo $r['firstname'];?></p>
+            <p class="font-weight-normal"><?php echo $r['city'];?></p>
             <p class="font-weight-normal"><?php echo $r['postcode'];?></p>
             <p class="font-weight-normal"><?php echo $r['country'];?></p>
         </div>
