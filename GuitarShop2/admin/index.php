@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Juura
- * Date: 08/11/2018
- * Time: 16:07
+ *  Login system code taken from link below.
+ *  Link: https://www.tutorialrepublic.com/php-tutorial/php-mysql-login-system.php
  */
 session_start();
 

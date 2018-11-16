@@ -1,5 +1,14 @@
 <?php
 ?>
+<!-- Basic bootstrap template was used from source below-->
+<!-- https://startbootstrap.com/template-overviews/shop-homepage/ -->
+<!-- AC32006 - Team 8-->
+<!-- University of Dundee-->
+<!-- Website created by: -->
+<!-- Juri Ilmjarv-->
+<!-- Matthew Foulis-->
+<!-- Danyal Ali -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

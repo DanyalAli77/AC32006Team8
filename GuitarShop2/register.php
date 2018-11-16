@@ -1,4 +1,8 @@
 <?php
+// Login system code taken from link below.
+// Link: https://www.tutorialrepublic.com/php-tutorial/php-mysql-login-system.php
+
+
 
 // Include config file
 require_once "config.php";

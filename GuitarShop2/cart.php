@@ -14,6 +14,10 @@ $items =  $_SESSION['cart'];
 }
 
 ?>
+<!-- Shopping cart code was taken from link below-->
+<!-- https://codingcyber.org/simple-shopping-cart-application-php-mysql-6394/ -->
+
+
 
 <div class="container">
     <div class="row">
