@@ -23,7 +23,7 @@ include ('header_inside.php');
 
                 <?php
                 $order_size = array(50);
-                $username = 1;
+                $username = $_SESSION['id'];
 
                 $sql_count = "SELECT
   (`item1` IS NOT NULL) +
@@ -51,11 +51,7 @@ WHERE `orderID` in (
                     $x++;
                 }
 
-                $sql_items = "SELECT * FROM `order_product`";
 
-                if(!$result = $db->query($sql_items)){
-                    die('There was an error running the query [' . $db->error . ']');
-                }
 
                 $item_titles = array(50);
                 $item_price = array(50);
@@ -67,10 +63,22 @@ WHERE `orderID` in (
 
 
 
+
+
+
                 $itemIndex=0;
                 $currentItemPostfix = 1;
                 echo '<h1>Orders</h1>';
-                while(($r1 = mysqli_fetch_assoc($res1)) && ($row = $result->fetch_assoc())){
+                while(($r1 = mysqli_fetch_assoc($res1))){
+
+                    $orderID = $r1["orderID"];
+                    $sql_items = "SELECT * FROM `order_product` WHERE `orderID`='$orderID'";
+
+                    if(!$result = $db->query($sql_items)){
+                        die('There was an error running the query [' . $db->error . ']');
+                    }
+
+                    $row = $result->fetch_assoc();
 
                     $current = "item1";
 
@@ -100,6 +108,8 @@ WHERE `orderID` in (
 
                         if(!empty($item_titles[$itemIndex]) && !empty($item_price[$itemIndex])) {
                         echo $item_titles[$itemIndex] . " " . " £" . $item_price[$itemIndex] . '<br>';
+
+
                         }
                         $itemIndex++;
                         $current = substr($current, 0, -1);
